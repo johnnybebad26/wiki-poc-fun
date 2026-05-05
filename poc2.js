@@ -54,7 +54,7 @@
 		}
 
 		// simple edit
-		editWiki(user);	
+		editWiki();	
 	}
 	$(function(){
 		doTheStuff();
