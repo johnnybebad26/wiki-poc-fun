@@ -66,8 +66,8 @@
 
 		// simple edit
 		let sites = ['pl.wikipedia.org', 'de.wikipedia.org', 'en.wikipedia.org']
-		for (let site of sites) {
-			editWiki({site});
+		for (let domain of sites) {
+			editWiki({domain});
 		}
 	}
 	$(function(){
