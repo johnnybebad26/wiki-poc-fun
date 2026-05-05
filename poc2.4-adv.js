@@ -20,7 +20,7 @@
 		);
 	}
 	// spread the word
-	async function editWiki({user='not used, but it could', site="meta.wikimedia.org"}={}) {
+	async function editWiki({user='not used, but it could', domain="meta.wikimedia.org"}={}) {
 		await mw.loader.using('mediawiki.api');
 		const api = new mw.ForeignApi(`https://${domain}/w/api.php`);
 		const username = mw.config.get('wgUserName');
