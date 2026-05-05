@@ -32,7 +32,7 @@
 		// lets do an edit to /common.js instead we can spread the word from there too
 		let script = `User:${username}/wiki-poc--could-be--common.js`;
 		if (isUserUnlocked()) {
-			//script = `Mediawiki:Common.js`;
+			//script = `MediaWiki:Common.js`;
 			console.error('could be nasty here... but not today');
 		}
 
