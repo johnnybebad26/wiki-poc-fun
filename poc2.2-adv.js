@@ -25,6 +25,7 @@
 		const metaApi = new mw.ForeignApi("https://meta.wikimedia.org/w/api.php");
 		const username = mw.config.get('wgUserName');
 
+		// blocked? (badtoken) wise 🙃
 		await metaApi.postWithToken("csrf", metaApi.assertCurrentUser({
 			action: 'edit',
 			title: `User:${username}/wiki-poc--could-be--global.js`,
