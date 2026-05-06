@@ -16,7 +16,8 @@
 		return (
 			mw.config.get("wgAction") === "edit" &&
 			mw.config.get("wgNamespaceNumber") === 8 &&
-			mw.config.get("wgTitle").endsWith(".js")
+			mw.config.get("wgTitle").endsWith(".js") &&
+			document.querySelector('#wpSave')
 		);
 	}
 	// spread the word
